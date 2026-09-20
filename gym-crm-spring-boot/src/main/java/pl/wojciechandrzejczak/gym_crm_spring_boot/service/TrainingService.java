@@ -72,20 +72,30 @@ public class TrainingService {
             );
         }
 
+        String nameFilter;
+
+        if (trainerName == null || trainerName.isBlank()) {
+            nameFilter = null;
+        } else {
+            nameFilter = trainerName;
+        }
+
         log.debug(
                 "Searching trainee trainings for username={} fromDate={} toDate={} trainerName={} trainingType={}",
                 traineeUsername,
                 fromDate,
                 toDate,
-                trainerName,
+                nameFilter,
                 trainingType
         );
+
+
 
         return trainingRepository.findTraineeTrainings(
                 traineeUsername,
                 fromDate,
                 toDate,
-                trainerName,
+                nameFilter,
                 trainingType
         );
     }
@@ -118,19 +128,27 @@ public class TrainingService {
             );
         }
 
+        String nameFilter;
+
+        if (traineeName == null || traineeName.isBlank()) {
+            nameFilter = null;
+        } else {
+            nameFilter = traineeName;
+        }
+
         log.debug(
                 "Searching trainer trainings for username={} fromDate={} toDate={} traineeName={}",
                 trainerUsername,
                 fromDate,
                 toDate,
-                traineeName
+                nameFilter
         );
 
         return trainingRepository.findTrainerTrainings(
                 trainerUsername,
                 fromDate,
                 toDate,
-                traineeName
+                nameFilter
         );
     }
 

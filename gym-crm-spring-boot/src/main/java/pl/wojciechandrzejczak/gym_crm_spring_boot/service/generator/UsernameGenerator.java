@@ -1,17 +1,17 @@
 package pl.wojciechandrzejczak.gym_crm_spring_boot.service.generator;
 
-import org.example.dao.TraineeDao;
-import org.example.dao.TrainerDao;
 import org.springframework.stereotype.Component;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TraineeRepository;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainerRepository;
 
 @Component
 public class UsernameGenerator {
-    private final TraineeDao traineeDao;
-    private final TrainerDao trainerDao;
+    private final TraineeRepository traineeRepository;
+    private final TrainerRepository trainerRepository;
 
-    public UsernameGenerator(TraineeDao traineeDao, TrainerDao trainerDao) {
-        this.traineeDao = traineeDao;
-        this.trainerDao = trainerDao;
+    public UsernameGenerator(TraineeRepository traineeRepository, TrainerRepository trainerRepository) {
+        this.traineeRepository = traineeRepository;
+        this.trainerRepository = trainerRepository;
     }
 
     public String generate(String firstName, String lastName) {
@@ -28,7 +28,7 @@ public class UsernameGenerator {
     }
 
     private boolean exists(String username) {
-        return traineeDao.existsByUsername(username)
-                || trainerDao.existsByUsername(username);
+        return traineeRepository.existsByUser_Username(username)
+                || trainerRepository.existsByUser_Username(username);
     }
 }
