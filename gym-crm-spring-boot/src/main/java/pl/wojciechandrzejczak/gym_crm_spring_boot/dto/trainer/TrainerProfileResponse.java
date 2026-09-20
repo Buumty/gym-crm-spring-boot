@@ -1,7 +1,7 @@
 package pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer;
 
-import org.example.dto.trainee.TraineeSummary;
-import org.example.model.TrainingTypeName;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainee.TraineeSummary;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.TrainingTypeName;
 
 import java.util.List;
 

@@ -7,14 +7,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
-import org.example.dto.training.TrainingTypeResponse;
-import org.example.facade.GymFacade;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training.TrainingTypeResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.facade.GymFacade;
 
 import java.util.List;
 

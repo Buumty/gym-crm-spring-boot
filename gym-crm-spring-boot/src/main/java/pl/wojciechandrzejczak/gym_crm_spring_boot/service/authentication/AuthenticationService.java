@@ -1,25 +1,26 @@
 package pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication;
 
-import org.example.dao.TraineeDao;
-import org.example.dao.TrainerDao;
-import org.example.model.Trainee;
-import org.example.model.Trainer;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.Trainee;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.Trainer;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TraineeRepository;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainerRepository;
 
 @Service
 @Transactional(readOnly = true)
 public class AuthenticationService {
-    private final TraineeDao traineeDao;
-    private final TrainerDao trainerDao;
+    private final TraineeRepository traineeRepository;
+    private final TrainerRepository trainerRepository;
 
-    public AuthenticationService(TraineeDao traineeDao, TrainerDao trainerDao) {
-        this.traineeDao = traineeDao;
-        this.trainerDao = trainerDao;
+    public AuthenticationService(TraineeRepository traineeRepository, TrainerRepository trainerRepository) {
+        this.traineeRepository = traineeRepository;
+        this.trainerRepository = trainerRepository;
     }
 
     public boolean traineeCredentialsValidation(String username, String password) {
-        return traineeDao.findByUsername(username)
+        return traineeRepository.findByUser_Username(username)
                 .map(Trainee::getUser)
                 .map(user -> user.getPassword().equals(password))
                 .orElse(false);
@@ -27,7 +28,7 @@ public class AuthenticationService {
     }
 
     public boolean trainerCredentialsValidation(String username, String password) {
-        return trainerDao.findByUsername(username)
+        return trainerRepository.findByUser_Username(username)
                 .map(Trainer::getUser)
                 .map(user -> user.getPassword().equals(password))
                 .orElse(false);

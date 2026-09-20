@@ -151,7 +151,7 @@ public class TrainingService {
         );
 
         Trainee trainee = traineeRepository
-                .findByUsername(traineeUsername)
+                .findByUser_Username(traineeUsername)
                 .orElseThrow(() ->
                         new NoSuchElementException(
                                 "Trainee not found"
@@ -159,7 +159,7 @@ public class TrainingService {
                 );
 
         Trainer trainer = trainerRepository
-                .findByUsername(trainerUsername)
+                .findByUser_Username(trainerUsername)
                 .orElseThrow(() ->
                         new NoSuchElementException(
                                 "Trainer not found"
@@ -167,7 +167,7 @@ public class TrainingService {
                 );
 
         TrainingType trainingType = trainingTypeRepository
-                .findByName(trainingTypeName)
+                .findByTrainingTypeName(trainingTypeName)
                 .orElseThrow(() ->
                         new NoSuchElementException(
                                 "Training type not found"
@@ -213,7 +213,7 @@ public class TrainingService {
                 authPassword
         );
 
-        Trainer trainer = trainerRepository.findByUsername(trainerUsername)
+        Trainer trainer = trainerRepository.findByUser_Username(trainerUsername)
                 .orElseThrow(() ->
                         new NoSuchElementException("Trainer not found")
                 );

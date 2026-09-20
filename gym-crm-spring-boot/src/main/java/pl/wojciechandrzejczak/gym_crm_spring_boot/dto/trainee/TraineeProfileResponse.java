@@ -1,6 +1,7 @@
 package pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainee;
 
-import org.example.dto.trainer.TrainerSummary;
+
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerSummary;
 
 import java.time.LocalDate;
 import java.util.List;

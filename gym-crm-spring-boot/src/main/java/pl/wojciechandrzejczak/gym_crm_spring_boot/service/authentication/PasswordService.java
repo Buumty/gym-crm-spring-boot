@@ -1,11 +1,11 @@
 package pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication;
 
 import jakarta.validation.constraints.NotBlank;
-import org.example.service.TraineeService;
-import org.example.service.TrainerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.TraineeService;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.TrainerService;
 
 @Service
 @Validated

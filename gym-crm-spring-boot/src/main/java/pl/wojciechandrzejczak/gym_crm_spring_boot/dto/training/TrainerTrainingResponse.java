@@ -1,6 +1,7 @@
 package pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training;
 
-import org.example.model.TrainingTypeName;
+
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.TrainingTypeName;
 
 import java.time.LocalDate;
 

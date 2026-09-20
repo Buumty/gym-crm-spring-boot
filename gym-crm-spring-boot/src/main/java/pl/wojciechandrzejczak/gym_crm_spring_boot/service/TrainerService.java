@@ -15,6 +15,8 @@ import pl.wojciechandrzejczak.gym_crm_spring_boot.model.Trainer;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.TrainingType;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.TrainingTypeName;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.User;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainerRepository;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainingTypeRepository;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication.AuthenticationService;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.service.generator.PasswordGenerator;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.service.generator.UsernameGenerator;
@@ -30,15 +32,15 @@ public class TrainerService {
     private static final Logger log =
             LoggerFactory.getLogger(TrainerService.class);
 
-    private final TrainerDao trainerDao;
-    private final TrainingTypeDao trainingTypeDao;
+    private final TrainerRepository trainerRepository;
+    private final TrainingTypeRepository trainingTypeRepository;
     private final PasswordGenerator passwordGenerator;
     private final UsernameGenerator usernameGenerator;
     private final AuthenticationService authenticationService;
 
-    public TrainerService(TrainerDao trainerDao, TrainingTypeDao trainingTypeDao, PasswordGenerator passwordGenerator, UsernameGenerator usernameGenerator, AuthenticationService authenticationService) {
-        this.trainerDao = trainerDao;
-        this.trainingTypeDao = trainingTypeDao;
+    public TrainerService(TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository, PasswordGenerator passwordGenerator, UsernameGenerator usernameGenerator, AuthenticationService authenticationService) {
+        this.trainerRepository = trainerRepository;
+        this.trainingTypeRepository = trainingTypeRepository;
         this.passwordGenerator = passwordGenerator;
         this.usernameGenerator = usernameGenerator;
         this.authenticationService = authenticationService;
@@ -55,13 +57,13 @@ public class TrainerService {
                 passwordGenerator.generate(),
                 true);
 
-        TrainingType trainingType = trainingTypeDao.findByName(specialization).orElseThrow(() ->
+        TrainingType trainingType = trainingTypeRepository.findByTrainingTypeName(specialization).orElseThrow(() ->
                 new NoSuchElementException(
                         "Training type " + specialization + " not found"
                 ));
 
 
-        Trainer savedTrainer = trainerDao.save(new Trainer(trainingType,
+        Trainer savedTrainer = trainerRepository.save(new Trainer(trainingType,
                 user));
 
 
@@ -86,7 +88,7 @@ public class TrainerService {
         authenticationService.requireTrainerAuthentication(username,password);
         Trainer trainer = getByUsername(username);
 
-        TrainingType trainingType = trainingTypeDao.findByName(specialization).orElseThrow(() ->
+        TrainingType trainingType = trainingTypeRepository.findByTrainingTypeName(specialization).orElseThrow(() ->
                 new NoSuchElementException(
                         "Training type " + specialization + " not found"
                 ));
@@ -159,7 +161,7 @@ public class TrainerService {
                 traineeUsername
         );
 
-        return trainerDao.findNotAssignedToTrainee(
+        return trainerRepository.findNotAssignedToTrainee(
                 traineeUsername
         );
     }
@@ -171,7 +173,7 @@ public class TrainerService {
     }
 
     private Trainer getByUsername(String username) {
-        return trainerDao.findByUsername(username)
+        return trainerRepository.findByUser_Username(username)
                 .orElseThrow(() ->
                         new NoSuchElementException(
                                 "Trainer with username " + username + " not found"

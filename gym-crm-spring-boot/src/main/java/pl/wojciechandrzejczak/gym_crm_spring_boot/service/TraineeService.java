@@ -210,7 +210,7 @@ public class TraineeService {
         }
 
         List<Trainer> trainers =
-                trainerRepository.findByUsernames(trainerUsernames);
+                trainerRepository.findByUser_UsernameIn(trainerUsernames);
 
         if (trainers.size() != trainerUsernames.size()) {
             throw new NoSuchElementException(
@@ -239,7 +239,7 @@ public class TraineeService {
     }
 
     private Trainee getByUsername(String username) {
-        return traineeRepository.findByUsername(username)
+        return traineeRepository.findByUser_Username(username)
                 .orElseThrow(() ->
                         new NoSuchElementException(
                                 "Trainee with username " + username + " not found"

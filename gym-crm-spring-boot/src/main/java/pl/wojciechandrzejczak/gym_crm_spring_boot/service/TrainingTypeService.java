@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training.TrainingTypeResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainingTypeRepository;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication.AuthenticationService;
 
 import java.util.List;
@@ -14,14 +15,14 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class TrainingTypeService {
 
-    private final TrainingTypeDao trainingTypeDao;
+    private final TrainingTypeRepository trainingTypeRepository;
     private final AuthenticationService authenticationService;
 
     public TrainingTypeService(
-            TrainingTypeDao trainingTypeDao,
+            TrainingTypeRepository trainingTypeRepository,
             AuthenticationService authenticationService
     ) {
-        this.trainingTypeDao = trainingTypeDao;
+        this.trainingTypeRepository = trainingTypeRepository;
         this.authenticationService = authenticationService;
     }
 
@@ -31,7 +32,7 @@ public class TrainingTypeService {
     ) {
         authenticationService.requireAuthentication(username, password);
 
-        return trainingTypeDao.findAll().stream()
+        return trainingTypeRepository.findAll().stream()
                 .map(type -> new TrainingTypeResponse(
                         type.getTrainingTypeId(),
                         type.getTrainingTypeName()

@@ -7,12 +7,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import org.example.dto.user.ChangePasswordRequest;
-import org.example.service.authentication.AuthenticationService;
-import org.example.service.authentication.PasswordService;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.user.ChangePasswordRequest;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication.AuthenticationService;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication.PasswordService;
 
 @RestController
 @RequestMapping("/api")
