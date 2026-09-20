@@ -1,4 +1,4 @@
-package org.example.service.authentication;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication;
 
 import org.example.dao.TraineeDao;
 import org.example.dao.TrainerDao;

@@ -1,12 +1,11 @@
-package org.example.service;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.service;
 
 import jakarta.validation.constraints.NotBlank;
-import org.example.dao.TrainingTypeDao;
-import org.example.dto.training.TrainingTypeResponse;
-import org.example.service.authentication.AuthenticationService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training.TrainingTypeResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication.AuthenticationService;
 
 import java.util.List;
 

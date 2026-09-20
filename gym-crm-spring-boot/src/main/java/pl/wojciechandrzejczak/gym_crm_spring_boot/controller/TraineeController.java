@@ -1,4 +1,4 @@
-package org.example.web.controller;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -16,6 +16,8 @@ import org.example.dto.user.RegistrationResponse;
 import org.example.facade.GymFacade;
 import org.example.model.Trainee;
 import org.example.model.TrainingTypeName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -24,9 +26,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/trainees")

@@ -1,23 +1,23 @@
-package org.example.service;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.service;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.example.dao.TraineeDao;
-import org.example.dao.TrainerDao;
-import org.example.dto.trainee.TraineeProfileResponse;
-import org.example.dto.trainee.TraineeUpdateResponse;
-import org.example.dto.trainer.TrainerSummary;
-import org.example.model.Trainee;
-import org.example.model.Trainer;
-import org.example.model.User;
-import org.example.service.authentication.AuthenticationService;
-import org.example.service.generator.PasswordGenerator;
-import org.example.service.generator.UsernameGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainee.TraineeProfileResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainee.TraineeUpdateResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerSummary;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.Trainee;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.Trainer;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.User;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TraineeRepository;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainerRepository;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication.AuthenticationService;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.generator.PasswordGenerator;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.generator.UsernameGenerator;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -32,16 +32,16 @@ public class TraineeService {
     private static final Logger log =
             LoggerFactory.getLogger(TraineeService.class);
 
-    private final TraineeDao traineeDao;
-    private final TrainerDao trainerDao;
+    private final TraineeRepository traineeRepository;
+    private final TrainerRepository trainerRepository;
     private final PasswordGenerator passwordGenerator;
     private final UsernameGenerator usernameGenerator;
     private final AuthenticationService authenticationService;
 
 
-    public TraineeService(TraineeDao traineeDao, TrainerDao trainerDao, PasswordGenerator passwordGenerator, UsernameGenerator usernameGenerator, AuthenticationService authenticationService) {
-        this.traineeDao = traineeDao;
-        this.trainerDao = trainerDao;
+    public TraineeService(TraineeRepository traineeRepository, TrainerRepository trainerRepository, PasswordGenerator passwordGenerator, UsernameGenerator usernameGenerator, AuthenticationService authenticationService) {
+        this.traineeRepository = traineeRepository;
+        this.trainerRepository = trainerRepository;
         this.passwordGenerator = passwordGenerator;
         this.usernameGenerator = usernameGenerator;
         this.authenticationService = authenticationService;
@@ -50,7 +50,7 @@ public class TraineeService {
     public Trainee findById(long id, String username, String password) {
         authenticationService.requireTraineeAuthentication(username, password);
         log.debug("Searching for trainee with id={}", id);
-        return traineeDao.findById(id).orElseThrow(() -> new NoSuchElementException(
+        return traineeRepository.findById(id).orElseThrow(() -> new NoSuchElementException(
                 "Trainee with id " + id + " not found"
         ));
     }
@@ -58,7 +58,7 @@ public class TraineeService {
     public List<Trainee> findAll(String username, String password) {
         authenticationService.requireTraineeAuthentication(username, password);
         log.debug("Retrieving all trainees");
-        return traineeDao.findAll();
+        return traineeRepository.findAll();
     }
 
     @Transactional
@@ -80,7 +80,7 @@ public class TraineeService {
                 address);
 
 
-        Trainee savedTrainee = traineeDao.save(trainee);
+        Trainee savedTrainee = traineeRepository.save(trainee);
 
         log.info(
                 "Created trainee id={}, username={}",
@@ -123,7 +123,7 @@ public class TraineeService {
 
         Trainee trainee = getByUsername(username);
 
-        traineeDao.delete(trainee);
+        traineeRepository.delete(trainee);
 
         log.info(
                 "Deleted trainee username={}",
@@ -210,7 +210,7 @@ public class TraineeService {
         }
 
         List<Trainer> trainers =
-                trainerDao.findByUsernames(trainerUsernames);
+                trainerRepository.findByUsernames(trainerUsernames);
 
         if (trainers.size() != trainerUsernames.size()) {
             throw new NoSuchElementException(
@@ -239,7 +239,7 @@ public class TraineeService {
     }
 
     private Trainee getByUsername(String username) {
-        return traineeDao.findByUsername(username)
+        return traineeRepository.findByUsername(username)
                 .orElseThrow(() ->
                         new NoSuchElementException(
                                 "Trainee with username " + username + " not found"

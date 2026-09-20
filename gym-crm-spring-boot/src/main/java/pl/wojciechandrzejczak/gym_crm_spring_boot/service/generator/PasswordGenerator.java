@@ -1,4 +1,4 @@
-package org.example.service.generator;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.service.generator;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;

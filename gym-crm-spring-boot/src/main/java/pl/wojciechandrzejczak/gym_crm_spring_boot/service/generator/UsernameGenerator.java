@@ -1,4 +1,4 @@
-package org.example.service.generator;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.service.generator;
 
 import org.example.dao.TraineeDao;
 import org.example.dao.TrainerDao;

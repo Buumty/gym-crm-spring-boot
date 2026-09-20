@@ -1,21 +1,21 @@
-package org.example.service;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.service;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.example.dao.TraineeDao;
-import org.example.dao.TrainerDao;
-import org.example.dao.TrainingDao;
-import org.example.dao.TrainingTypeDao;
-import org.example.dto.training.TraineeTrainingResponse;
-import org.example.dto.training.TrainerTrainingResponse;
-import org.example.model.*;
-import org.example.service.authentication.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training.TraineeTrainingResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training.TrainerTrainingResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.*;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TraineeRepository;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainerRepository;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainingRepository;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainingTypeRepository;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication.AuthenticationService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,17 +28,17 @@ public class TrainingService {
     private static final Logger log =
             LoggerFactory.getLogger(TrainingService.class);
 
-    private final TrainingDao trainingDao;
-    private final TraineeDao traineeDao;
-    private final TrainerDao trainerDao;
-    private final TrainingTypeDao trainingTypeDao;
+    private final TraineeRepository traineeRepository;
+    private final TrainerRepository trainerRepository;
+    private final TrainingRepository trainingRepository;
+    private final TrainingTypeRepository trainingTypeRepository;
     private final AuthenticationService authenticationService;
 
-    public TrainingService(TrainingDao trainingDao, TraineeDao traineeDao, TrainerDao trainerDao, TrainingTypeDao trainingTypeDao, AuthenticationService authenticationService) {
-        this.trainingDao = trainingDao;
-        this.traineeDao = traineeDao;
-        this.trainerDao = trainerDao;
-        this.trainingTypeDao = trainingTypeDao;
+    public TrainingService(TraineeRepository traineeRepository, TrainerRepository trainerRepository, TrainingRepository trainingRepository, TrainingTypeRepository trainingTypeRepository, AuthenticationService authenticationService) {
+        this.traineeRepository = traineeRepository;
+        this.trainerRepository = trainerRepository;
+        this.trainingRepository = trainingRepository;
+        this.trainingTypeRepository = trainingTypeRepository;
         this.authenticationService = authenticationService;
     }
 
@@ -81,7 +81,7 @@ public class TrainingService {
                 trainingType
         );
 
-        return trainingDao.findTraineeTrainings(
+        return trainingRepository.findTraineeTrainings(
                 traineeUsername,
                 fromDate,
                 toDate,
@@ -126,7 +126,7 @@ public class TrainingService {
                 traineeName
         );
 
-        return trainingDao.findTrainerTrainings(
+        return trainingRepository.findTrainerTrainings(
                 trainerUsername,
                 fromDate,
                 toDate,
@@ -150,7 +150,7 @@ public class TrainingService {
                 authPassword
         );
 
-        Trainee trainee = traineeDao
+        Trainee trainee = traineeRepository
                 .findByUsername(traineeUsername)
                 .orElseThrow(() ->
                         new NoSuchElementException(
@@ -158,7 +158,7 @@ public class TrainingService {
                         )
                 );
 
-        Trainer trainer = trainerDao
+        Trainer trainer = trainerRepository
                 .findByUsername(trainerUsername)
                 .orElseThrow(() ->
                         new NoSuchElementException(
@@ -166,7 +166,7 @@ public class TrainingService {
                         )
                 );
 
-        TrainingType trainingType = trainingTypeDao
+        TrainingType trainingType = trainingTypeRepository
                 .findByName(trainingTypeName)
                 .orElseThrow(() ->
                         new NoSuchElementException(
@@ -183,7 +183,7 @@ public class TrainingService {
                 trainingDuration
         );
 
-        Training savedTraining = trainingDao.save(training);
+        Training savedTraining = trainingRepository.save(training);
 
         log.info(
                 "Created training name={} traineeUsername={} trainerUsername={} type={} date={} duration={}",
@@ -213,7 +213,7 @@ public class TrainingService {
                 authPassword
         );
 
-        Trainer trainer = trainerDao.findByUsername(trainerUsername)
+        Trainer trainer = trainerRepository.findByUsername(trainerUsername)
                 .orElseThrow(() ->
                         new NoSuchElementException("Trainer not found")
                 );

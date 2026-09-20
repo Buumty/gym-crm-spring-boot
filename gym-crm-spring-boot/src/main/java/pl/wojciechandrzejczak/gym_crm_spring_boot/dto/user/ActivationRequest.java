@@ -1,4 +1,4 @@
-package org.example.dto.user;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.dto.user;
 
 import jakarta.validation.constraints.NotNull;
 

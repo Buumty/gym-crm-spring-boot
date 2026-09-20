@@ -1,4 +1,4 @@
-package org.example.service.authentication;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication;
 
 import jakarta.validation.constraints.NotBlank;
 import org.example.service.TraineeService;

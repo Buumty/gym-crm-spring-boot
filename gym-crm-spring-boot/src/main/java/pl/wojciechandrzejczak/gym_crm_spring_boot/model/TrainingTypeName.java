@@ -1,4 +1,4 @@
-package org.example.model;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.model;
 
 public enum TrainingTypeName {
     FITNESS,

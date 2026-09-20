@@ -1,25 +1,23 @@
-package org.example.service;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.service;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.example.dao.TrainerDao;
-import org.example.dao.TrainingTypeDao;
-import org.example.dto.trainee.TraineeSummary;
-import org.example.dto.trainer.TrainerProfileResponse;
-import org.example.dto.trainer.TrainerSummary;
-import org.example.dto.trainer.TrainerUpdateResponse;
-import org.example.model.Trainer;
-import org.example.model.TrainingType;
-import org.example.model.TrainingTypeName;
-import org.example.model.User;
-import org.example.service.authentication.AuthenticationService;
-import org.example.service.generator.PasswordGenerator;
-import org.example.service.generator.UsernameGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainee.TraineeSummary;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerProfileResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerSummary;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerUpdateResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.Trainer;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.TrainingType;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.TrainingTypeName;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.model.User;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication.AuthenticationService;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.generator.PasswordGenerator;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.service.generator.UsernameGenerator;
 
 import java.util.Comparator;
 import java.util.List;

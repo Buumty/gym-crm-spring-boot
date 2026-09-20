@@ -1,4 +1,4 @@
-package org.example.dto.training;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training;
 
 import org.example.model.TrainingTypeName;
 

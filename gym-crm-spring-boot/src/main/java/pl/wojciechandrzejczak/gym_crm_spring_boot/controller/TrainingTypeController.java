@@ -1,4 +1,4 @@
-package org.example.web.controller;
+package pl.wojciechandrzejczak.gym_crm_spring_boot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
