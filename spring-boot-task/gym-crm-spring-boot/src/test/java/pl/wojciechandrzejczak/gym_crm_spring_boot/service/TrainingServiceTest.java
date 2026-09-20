@@ -14,6 +14,10 @@ import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainingRepository;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainingTypeRepository;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.service.authentication.AuthenticationService;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -636,6 +640,50 @@ class TrainingServiceTest {
                         toDate,
                         "John Smith"
                 );
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {" ", "   ", "\t"})
+    void shouldIgnoreBlankTrainerName(String trainerName) {
+        trainingService.getTraineeTrainings(
+                "John.Smith",
+                "password",
+                "John.Smith",
+                null,
+                null,
+                trainerName,
+                null
+        );
+
+        verify(trainingRepository).findTraineeTrainings(
+                "John.Smith",
+                null,
+                null,
+                null,
+                null
+        );
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {" ", "   ", "\t"})
+    void shouldIgnoreBlankTraineeName(String traineeName) {
+        trainingService.getTrainerTrainings(
+                "Anna.Brown",
+                "password",
+                "Anna.Brown",
+                null,
+                null,
+                traineeName
+        );
+
+        verify(trainingRepository).findTrainerTrainings(
+                "Anna.Brown",
+                null,
+                null,
+                null
+        );
     }
 
     private Training createTraining() {
