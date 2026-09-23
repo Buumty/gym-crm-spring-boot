@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainee.TraineeProfileResponse;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainee.TraineeUpdateResponse;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerSummary;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.metrics.GymMetrics;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.Trainee;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.Trainer;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.User;
@@ -37,14 +38,16 @@ public class TraineeService {
     private final PasswordGenerator passwordGenerator;
     private final UsernameGenerator usernameGenerator;
     private final AuthenticationService authenticationService;
+    private final GymMetrics gymMetrics;
 
 
-    public TraineeService(TraineeRepository traineeRepository, TrainerRepository trainerRepository, PasswordGenerator passwordGenerator, UsernameGenerator usernameGenerator, AuthenticationService authenticationService) {
+    public TraineeService(TraineeRepository traineeRepository, TrainerRepository trainerRepository, PasswordGenerator passwordGenerator, UsernameGenerator usernameGenerator, AuthenticationService authenticationService, GymMetrics gymMetrics) {
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
         this.passwordGenerator = passwordGenerator;
         this.usernameGenerator = usernameGenerator;
         this.authenticationService = authenticationService;
+        this.gymMetrics = gymMetrics;
     }
 
     public Trainee findById(long id, String username, String password) {
@@ -81,6 +84,7 @@ public class TraineeService {
 
 
         Trainee savedTrainee = traineeRepository.save(trainee);
+        gymMetrics.incrementTraineeRegistrations();
 
         log.info(
                 "Created trainee id={}, username={}",

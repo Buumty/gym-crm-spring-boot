@@ -11,6 +11,7 @@ import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainee.TraineeSummary;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerProfileResponse;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerSummary;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerUpdateResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.metrics.GymMetrics;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.Trainer;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.TrainingType;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.TrainingTypeName;
@@ -37,13 +38,15 @@ public class TrainerService {
     private final PasswordGenerator passwordGenerator;
     private final UsernameGenerator usernameGenerator;
     private final AuthenticationService authenticationService;
+    private final GymMetrics gymMetrics;
 
-    public TrainerService(TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository, PasswordGenerator passwordGenerator, UsernameGenerator usernameGenerator, AuthenticationService authenticationService) {
+    public TrainerService(TrainerRepository trainerRepository, TrainingTypeRepository trainingTypeRepository, PasswordGenerator passwordGenerator, UsernameGenerator usernameGenerator, AuthenticationService authenticationService, GymMetrics gymMetrics) {
         this.trainerRepository = trainerRepository;
         this.trainingTypeRepository = trainingTypeRepository;
         this.passwordGenerator = passwordGenerator;
         this.usernameGenerator = usernameGenerator;
         this.authenticationService = authenticationService;
+        this.gymMetrics = gymMetrics;
     }
 
     @Transactional
@@ -67,7 +70,7 @@ public class TrainerService {
                 user));
 
 
-
+        gymMetrics.incrementTrainerRegistrations();
         log.info(
                 "Created trainer id={}, username={}",
                 savedTrainer.getTrainerId(),

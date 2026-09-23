@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training.TraineeTrainingResponse;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training.TrainerTrainingResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.metrics.GymMetrics;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.*;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TraineeRepository;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainerRepository;
@@ -33,13 +34,15 @@ public class TrainingService {
     private final TrainingRepository trainingRepository;
     private final TrainingTypeRepository trainingTypeRepository;
     private final AuthenticationService authenticationService;
+    private final GymMetrics gymMetrics;
 
-    public TrainingService(TraineeRepository traineeRepository, TrainerRepository trainerRepository, TrainingRepository trainingRepository, TrainingTypeRepository trainingTypeRepository, AuthenticationService authenticationService) {
+    public TrainingService(TraineeRepository traineeRepository, TrainerRepository trainerRepository, TrainingRepository trainingRepository, TrainingTypeRepository trainingTypeRepository, AuthenticationService authenticationService, GymMetrics gymMetrics) {
         this.traineeRepository = traineeRepository;
         this.trainerRepository = trainerRepository;
         this.trainingRepository = trainingRepository;
         this.trainingTypeRepository = trainingTypeRepository;
         this.authenticationService = authenticationService;
+        this.gymMetrics = gymMetrics;
     }
 
     public List<Training> getTraineeTrainings(
@@ -203,6 +206,7 @@ public class TrainingService {
 
         Training savedTraining = trainingRepository.save(training);
 
+        gymMetrics.incrementTrainingsCreated();
         log.info(
                 "Created training name={} traineeUsername={} trainerUsername={} type={} date={} duration={}",
                 trainingName,

@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerProfileResponse;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerSummary;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.trainer.TrainerUpdateResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.metrics.GymMetrics;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.*;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainerRepository;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainingTypeRepository;
@@ -24,6 +25,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TrainerServiceTest {
+
+    @Mock
+    private GymMetrics gymMetrics;
 
     @Mock
     private TrainerRepository trainerRepository;
@@ -101,6 +105,8 @@ class TrainerServiceTest {
                 trainingType,
                 result.getSpecialization()
         );
+
+        verify(gymMetrics).incrementTrainerRegistrations();
 
         verify(usernameGenerator)
                 .generate("John", "Smith");

@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training.TraineeTrainingResponse;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.dto.training.TrainerTrainingResponse;
+import pl.wojciechandrzejczak.gym_crm_spring_boot.metrics.GymMetrics;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.model.*;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TraineeRepository;
 import pl.wojciechandrzejczak.gym_crm_spring_boot.repository.TrainerRepository;
@@ -28,6 +29,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TrainingServiceTest {
+
+    @Mock
+    private GymMetrics gymMetrics;
 
     @Mock
     private TrainingRepository trainingRepository;
@@ -114,6 +118,8 @@ class TrainingServiceTest {
                 60,
                 result.getTrainingDuration()
         );
+
+        verify(gymMetrics).incrementTrainingsCreated();
 
         verify(authenticationService)
                 .requireAuthentication(
